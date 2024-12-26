@@ -9,7 +9,7 @@ class TicketRepository implements TicketRepositoryInterface
 {
     public function getPopularTickets($limit = 4)
     {
-        return Ticket::orderBy('is_popular', true)->limit($limit)->get();
+        return Ticket::where('is_popular', true)->limit($limit)->get();
     }
 
     public function getAllNewTickets()

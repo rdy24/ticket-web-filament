@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CheckBookingRequest;
 use App\Http\Requests\StoreBookingRequest;
 use App\Http\Requests\StorePaymentRequest;
 use App\Models\BookingTransaction;
@@ -55,6 +56,26 @@ class BookingController extends Controller
     public function bookingFinished(BookingTransaction $bookingTransaction)
     {
         return view('front.booking_finished', [
+            'bookingTransaction' => $bookingTransaction
+        ]);
+    }
+    public function checkBooking()
+    {
+        return view('front.check_booking');
+    }
+
+    public function checkBookingDetails(CheckBookingRequest $request)
+    {
+        $data = $request->validated();
+
+        $booking = $this->bookingService->checkBookingDetails($data);
+
+        return redirect()->route('front.booking_detail', $booking->id);
+    }
+
+    public function bookingDetail(BookingTransaction $bookingTransaction)
+    {
+        return view('front.booking_detail', [
             'bookingTransaction' => $bookingTransaction
         ]);
     }

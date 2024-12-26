@@ -80,7 +80,7 @@ class BookingService
             $validated['total_amount'] = $booking['total_amount'];
             $validated['ticket_id'] = $booking['ticket_id'];
             $validated['is_paid'] = false;
-            $validated['is_paid'] = BookingTransaction::generateUniqueTrxId();
+            $validated['booking_trx_id'] = BookingTransaction::generateUniqueTrxId();
 
             $bookingTransaction = $this->bookingRepository->createBooking($validated);
 
@@ -89,5 +89,12 @@ class BookingService
         });
 
         return $bookingTransactionId;
+    }
+
+    public function checkBookingDetails(array $validated)
+    {
+        $bookingTransaction = $this->bookingRepository->findByTrxIdAndPhoneNumber($validated['bookId'], $validated['phone']);   
+
+        return $bookingTransaction;
     }
 }
